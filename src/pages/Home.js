@@ -3,8 +3,8 @@ import { Box } from '@mui/material'
 import "../App.css"
 
 import HeroBanner from '../components/HeroBanner'
-import SearchExercises from '../components/SearchExcercises'
-import Exercises from '../components/Excercises'
+import SearchExercises from '../components/SearchExercises'
+import Exercises from '../components/Exercises'
 
 const Home = () => {
   const [exercises, setExercises] = useState([]);
