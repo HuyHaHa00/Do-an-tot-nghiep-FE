@@ -11,31 +11,38 @@ import SimilarExercises from '../components/SimilarExercises'
 const ExerciseDetail = () => {
   const [exerciseDetail, setExerciseDetail] = useState({});
   const { id } = useParams();
-  const [exerciseVideos, setexerciseVideos] = useState([]);
+  const [exerciseVideos, setExerciseVideos] = useState([]);
+  const [targetMuscleExercises, setTargetMuscleExercises] = useState([]);
+  const [equipmentExercises, setEquipmentExercises] = useState([]);
 
   useEffect(() => {
-    const fetchExerciseData = async () => {
-      const exerciseDbUrl = `https://exercisedb.p.rapidapi.com/exercises/exercise/${id}`;
-      const exerciseDetailData = await fetchData(exerciseDbUrl, exerciseOptions);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    const fetchExercisesData = async () => {
+      const exerciseDbUrl = 'https://exercisedb.p.rapidapi.com';
+      const youtubeSearchUrl = 'https://youtube-search-and-download.p.rapidapi.com';
+
+      const exerciseDetailData = await fetchData(`${exerciseDbUrl}/exercises/exercise/${id}`, exerciseOptions);
       setExerciseDetail(exerciseDetailData);
+
+      const exerciseVideosData = await fetchData(`${youtubeSearchUrl}/search?query=${exerciseDetailData.name} exercise`, youtubeOptions);
+      setExerciseVideos(exerciseVideosData.contents);
+
+      const targetMuscleExercisesData = await fetchData(`${exerciseDbUrl}/exercises/target/${exerciseDetailData.target}`, exerciseOptions);
+      setTargetMuscleExercises(targetMuscleExercisesData);
+
+      const equimentExercisesData = await fetchData(`${exerciseDbUrl}/exercises/equipment/${exerciseDetailData.equipment}`, exerciseOptions);
+      setEquipmentExercises(equimentExercisesData);
     };
 
-    const fetchYoutubeData = async () => {
-      const youtubeSearchUrl = `https://youtube-search-and-download.p.rapidapi.com`;
-      const exerciseVideoData = await fetchData(`${youtubeSearchUrl}/search?query=${exerciseDetail.name}`, youtubeOptions);
-      console.log(exerciseVideoData);
-      setexerciseVideos(exerciseVideoData);
-    }
-
-    fetchExerciseData();
-    fetchYoutubeData();
-  },[id])
+    fetchExercisesData();
+  }, [id]);
   
   return (
     <Box>
       <Detail exerciseDetail={exerciseDetail}/>
       <ExerciseVideos exerciseVideos={exerciseVideos} name={exerciseDetail.name}/>
-      <SimilarExercises />
+      <SimilarExercises targetMuscleExercises={targetMuscleExercises} equipmentExercises={equipmentExercises} />
     </Box>
   )
 }
