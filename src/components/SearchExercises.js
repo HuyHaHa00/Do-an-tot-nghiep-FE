@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Stack, TextField, Typography} from '@mui/material'
+import axios from 'axios';
 
 import { fetchData, exerciseOptions } from '../utils/fetchData'
 import HorizontalScrollbar from './HorizontalScrollbar'
@@ -26,11 +27,12 @@ const SearchExercises = ({setExercises, bodyPart, setBodyPart}) => {
   
   const handleSearch = async () => {
     if(search) {
-      const exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
-      const searchedExercises = exercisesData.filter((exercise) => exercise.name.toLowerCase().includes(search) 
-                                                                || exercise.target.toLowerCase().includes(search)
-                                                                || exercise.equipment.toLowerCase().includes(search)
-                                                                || exercise.bodyPart.toLowerCase().includes(search)
+      //const exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
+      const exercisesData = await axios.get('https://localhost:7090/api/TblBaiTaps');
+      const searchedExercises = exercisesData.filter((exercise) => exercise.TenBaiTap.toLowerCase().includes(search) 
+                                                                || exercise.NhomCo.toLowerCase().includes(search)
+                                                                || exercise.TBSuDung.toLowerCase().includes(search)
+                                                                || exercise.BpCoThe.toLowerCase().includes(search)
                                                     );
       setSearch('');
       setExercises(searchedExercises);
