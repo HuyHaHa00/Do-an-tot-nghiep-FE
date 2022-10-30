@@ -7,7 +7,7 @@ import { Box, Button, Stack, TextField, Typography } from '@mui/material'
 
 const SignUpPage = () => {
     //create a signup page: 
-    //create a form with a text field for username, password, age, email and phone number
+    //create a form with a text field for username, password, name, sex, age, email and phone number
     //have validation for each field
     //if validation fails, show an error message under the field
     //create a button to submit the form
@@ -15,27 +15,40 @@ const SignUpPage = () => {
     
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [name, setName] = useState("");
+    const [gender, setGender] = useState("");
     const [age, setAge] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
-    const [error, setError] = useState("");
-        
+    const [error, setError] = useState("");  
+
+    
+
     const signup = () => {
       if(!error) {
+        //get datetime now with format 2022-10-18T07:08:43.615Z
+        var date = new Date().toISOString();
         var data = {
-            username: username,
-            password: password,
-            age: age,
-            email: email,
-            phone: phone,
+          tenDangNhap: username.toLowerCase(),
+          matKhau: password,
+          quyen: "user",
+          trangThaiPremium: false,
+          thoiGianDk: date,
+          hoTen: name,
+          gioiTinh: gender,
+          tuoi: age,
+          sdt: phone,
+          email: email,
         };
         $.ajax({
             type: "POST",
-            url: 'https://localhost:7090/api/Account',
+            url: 'https://localhost:7090/api/TblTaiKhoans',
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(data),
             success: function (result) {
-                console.log(result);
+                alert("Sign up successfully!");
+                //redirect to login page on click of ok button of alert
+                window.location.href = "/login";
             },  
             error: function (errormessage) {
                 alert(errormessage.responseText);
@@ -46,6 +59,8 @@ const SignUpPage = () => {
         alert(error);
       }
     }
+
+    
 
     useEffect(() => {
         var formIsValid = true;
@@ -82,6 +97,12 @@ const SignUpPage = () => {
       </Box>
       <Box sx={{mt: '20px'}}>
         <TextField label="Password" variant="outlined" fullWidth value={password} onChange={(e)=>setPassword(e.target.value)}/>
+      </Box>
+      <Box sx={{mt: '20px'}}>
+        <TextField label="Name" variant="outlined" fullWidth value={name} onChange={(e)=>setName(e.target.value)}/>
+      </Box>
+      <Box sx={{mt: '20px'}}>
+        <TextField label="Gender" variant="outlined" fullWidth value={gender} onChange={(e)=>setGender(e.target.value)}/>
       </Box>
       <Box sx={{mt: '20px'}}>
         <TextField label="Age" variant="outlined" fullWidth value={age} onChange={(e)=>setAge(e.target.value)}/>

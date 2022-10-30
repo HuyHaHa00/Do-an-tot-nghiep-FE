@@ -5,23 +5,30 @@ import $ from 'jquery';
 
 import { Box, Button, Stack, TextField, Typography } from '@mui/material'
 
+
+
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   
+  const win = window.sessionStorage;
+
     const login = () => {
       var data = {
-          username: username,
-          password: password,
+          tenDangNhap: username,
+          matKhau: password,
       };
       $.ajax({
           type: "POST",
-          url: 'https://localhost:7090/api/Account',
+          url: 'https://localhost:7090/api/TblTaiKhoans/DangNhap',
           contentType: "application/json;charset=utf-8",
           data: JSON.stringify(data),
           success: function (result) {
-              console.log(result);
+            win.setItem("userID", result);
+            win.setItem("userName", username);
+            alert("Login successfully!");
+            window.location.href = "/";
           },
           error: function (errormessage) {
               alert(errormessage.responseText);

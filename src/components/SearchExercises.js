@@ -28,11 +28,13 @@ const SearchExercises = ({setExercises, bodyPart, setBodyPart}) => {
   const handleSearch = async () => {
     if(search) {
       //const exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
-      const exercisesData = await axios.get('https://localhost:7090/api/TblBaiTaps');
-      const searchedExercises = exercisesData.filter((exercise) => exercise.TenBaiTap.toLowerCase().includes(search) 
-                                                                || exercise.NhomCo.toLowerCase().includes(search)
-                                                                || exercise.TBSuDung.toLowerCase().includes(search)
-                                                                || exercise.BpCoThe.toLowerCase().includes(search)
+      const exercisesDataFromDB = await axios.get('https://localhost:7090/api/TblBaiTaps');
+      const exercisesData = exercisesDataFromDB.data;
+      console.log(exercisesData);
+      const searchedExercises = exercisesData.filter(exercise => exercise.tenBaiTap.toLowerCase().includes(search) 
+                                                                || exercise.nhomCo.toLowerCase().includes(search)
+                                                                || exercise.tbsuDung.toLowerCase().includes(search)
+                                                                || exercise.bpCoThe.toLowerCase().includes(search)
                                                     );
       setSearch('');
       setExercises(searchedExercises);
