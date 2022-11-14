@@ -3,7 +3,7 @@ import Axios from 'axios'
 import {useState, useEffect} from 'react'
 import $ from 'jquery';
 
-import { Box, Button, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, Stack, TextField, Typography, Select, MenuItem } from '@mui/material'
 
 const SignUpPage = () => {
     //create a signup page: 
@@ -16,7 +16,7 @@ const SignUpPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-    const [gender, setGender] = useState("");
+    const [gender, setGender] = useState("Nam");
     const [age, setAge] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
@@ -32,7 +32,7 @@ const SignUpPage = () => {
           tenDangNhap: username.toLowerCase(),
           matKhau: password,
           quyen: "user",
-          trangThaiPremium: false,
+          trangThaiPremium: "false",
           thoiGianDk: date,
           hoTen: name,
           gioiTinh: gender,
@@ -42,7 +42,7 @@ const SignUpPage = () => {
         };
         $.ajax({
             type: "POST",
-            url: 'https://localhost:7090/api/TblTaiKhoans',
+            url: 'https://localhost:7090/api/TblTaiKhoans/DangKy',
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(data),
             success: function (result) {
@@ -102,7 +102,10 @@ const SignUpPage = () => {
         <TextField label="Name" variant="outlined" fullWidth value={name} onChange={(e)=>setName(e.target.value)}/>
       </Box>
       <Box sx={{mt: '20px'}}>
-        <TextField label="Gender" variant="outlined" fullWidth value={gender} onChange={(e)=>setGender(e.target.value)}/>
+        <Select label="Gender" value={gender} onChange={(e)=>setGender(e.target.value)}>
+          <MenuItem value="Nam">Male</MenuItem>
+          <MenuItem value="Nu">Female</MenuItem>
+        </Select>
       </Box>
       <Box sx={{mt: '20px'}}>
         <TextField label="Age" variant="outlined" fullWidth value={age} onChange={(e)=>setAge(e.target.value)}/>

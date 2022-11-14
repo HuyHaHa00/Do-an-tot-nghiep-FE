@@ -43,7 +43,7 @@ const Detail = ({ exerciseDetail }) => {
                   <img src={item.icon} alt={bpCoThe} style={{width: '50px', height: '50px'}} />
                 </Button>
                 <Typography variant="h5" textTransform="capitalize">
-                  {item.tenBaiTap}
+                  {item.name}
                 </Typography>
               </Stack>  
           ))}

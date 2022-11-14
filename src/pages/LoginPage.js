@@ -25,9 +25,12 @@ const LoginPage = () => {
           contentType: "application/json;charset=utf-8",
           data: JSON.stringify(data),
           success: function (result) {
-            win.setItem("userID", result);
+            win.setItem("userID", result.idTaiKhoan);
             win.setItem("userName", username);
+            win.setItem("quyen", result.quyen);
+            win.setItem("trangThaiPremium", result.trangThaiPremium);
             alert("Login successfully!");
+            console.log(result);
             window.location.href = "/";
           },
           error: function (errormessage) {

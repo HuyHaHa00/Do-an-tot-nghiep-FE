@@ -21,7 +21,7 @@ const Navbar = () => {
           style={{width: '48px',height: '48px', margin: '0 20px'}}/>
         </Link>
         <Stack
-          direction="row"
+          direction={{ xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }}
           gap="40px"
           fontSize="24px"
           alignItems="flex-end"
@@ -31,6 +31,9 @@ const Navbar = () => {
           {userID ? 
           <>
             <Link to="/account" style={{textDecoration: 'none', color: "#3A1212"}}>Hello, {userName}</Link>
+            <Link to="/exercisescollections" style={{ textDecoration: 'none',color: "#3A1212"}}>Exercise Collection</Link>
+            <Link to="/exerciseroutine" style={{ textDecoration: 'none',color: "#3A1212"}}>Exercise Routine</Link>
+            <Link to="/premium" style={{ textDecoration: 'none',color: "#3A1212"}}>Premium</Link>
             <Button style={{textDecoration: 'none', color: "#3A1212"}} 
               onClick={()=>{win.removeItem("userName");win.removeItem("userID");window.location.href="/"}}>Logout</Button>
           </>: 
@@ -38,8 +41,7 @@ const Navbar = () => {
           <Link to="/login" style={{ textDecoration: 'none',color: "#3A1212"}}>Login</Link>
           <Link to="/signup" style={{ textDecoration: 'none',color: "#3A1212"}}>Signup</Link>
           </>}
-          <Link to="/exercisescollections" style={{ textDecoration: 'none',color: "#3A1212"}}>Exercise Collection</Link>
-          <Link to="/exerciseroutine" style={{ textDecoration: 'none',color: "#3A1212"}}>Exercise Routine</Link>
+          
         </Stack>
     </Stack>
   )

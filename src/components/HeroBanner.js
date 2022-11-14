@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Stack, Typography, Button} from '@mui/material'
 
 import HeroBannerImage from '../assets/images/banner.png'
+import NewBanner from '../assets/images/NewBanner.jpg'
 
 const HeroBanner = () => {
   return (
@@ -22,7 +23,7 @@ const HeroBanner = () => {
         Exercise
       </Typography>
     </Box>
-    <img src={HeroBannerImage} alt="Hero Banner" className='hero-banner-img'/>
+    <img src={NewBanner} alt="Hero Banner" className='hero-banner-img'/>
     </>
   )
 }

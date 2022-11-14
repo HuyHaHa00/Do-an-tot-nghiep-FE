@@ -64,7 +64,7 @@ const ExercisesRoutineEdit = () => {
             listctlt.push(ctlt);
         });
         
-        axios.post(`https://localhost:7090/api/TblChiTietLichTaps`, listctlt)
+        axios.post(`https://localhost:7090/api/TblChiTietLichTaps/AddWithList`, listctlt)
             .then(res => {
                 console.log(res);
                 setRefresh(!refresh);

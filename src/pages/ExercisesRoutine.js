@@ -49,6 +49,19 @@ const ExercisesRoutine = () => {
     navigate(`/exerciseroutine/edit/${idLichTap}`);
   }
 
+  const HandleDeleteClick = (e, idLichTap) => {
+    //delete routine, use routineID
+    axios.delete(`https://localhost:7090/api/TblLichTaps/${idLichTap}`)
+    .then(res => {
+      alert("Delete successfully!");
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    setRefresh(!refresh);
+  }
+
   const handleCreateNewRoutine = () => {
     //create new routine, use userID, routineName
     axios.post(`https://localhost:7090/api/TblLichTaps`, {
@@ -121,7 +134,7 @@ const ExercisesRoutine = () => {
               </Typography>
               <Button variant="contained" sx={{ m: 1 }} onClick={(e) => HandleViewClick(e, item.idLichTap)}>View</Button>
               <Button variant="contained" sx={{ m: 1 }} onClick={(e) => HandleEditClick(e, item.idLichTap)}>Edit</Button>
-              <Button variant="contained" sx={{ m: 1 }}>Delete</Button>
+              <Button variant="contained" sx={{ m: 1 }} onClick={(e) => HandleDeleteClick(e, item.idLichTap)}>Delete</Button>
             </Box>
           ))}
         </Grid>
