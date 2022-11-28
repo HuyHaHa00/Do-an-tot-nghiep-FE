@@ -9,6 +9,13 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Login from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
+import ExercisesCollections from './pages/ExercisesCollections';
+import ExercisesCollectionsEdit from './pages/ExercisesCollectionsEdit';
+import ExercisesRoutine from './pages/ExercisesRoutine';
+import ExercisesRoutineEdit from './pages/ExercisesRoutineEdit';
+import Account from './pages/Account';
+import PremiumPage from './pages/PremiumPage';
+import AdminPage from './pages/AdminPage';
 
 const App = () => (
   <Box>
@@ -18,6 +25,13 @@ const App = () => (
       <Route path="/exercise/:id" element={<ExerciseDetail />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUpPage />} />
+      <Route path="/account" element={<Account />} />
+      <Route path="/exercisescollections" element={<ExercisesCollections />} />
+      <Route path="/exercisescollections/edit/:id" element={<ExercisesCollectionsEdit />} />
+      <Route path="/exerciseroutine" element={<ExercisesRoutine />} />
+      <Route path="/exerciseroutine/edit/:id" element={<ExercisesRoutineEdit />} />
+      <Route path="/premium" element={<PremiumPage />} />
+      <Route path="/admin" element={<AdminPage />} />
     </Routes>
     <Footer />
   </Box>
