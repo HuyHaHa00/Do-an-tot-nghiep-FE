@@ -1,12 +1,12 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { Box, Stack, Typography, Grid, Button, TextField} from '@mui/material'
+import { Box, Stack, Typography, Grid, Button, TextField, Checkbox} from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
 const ExercisesRoutine = () => {
   const [routine, setRoutine] = useState([]);//lay toan bo lich tap
-  const [routineCollection, setRoutineCollection] = useState([]);//lay toan bo dstap cua lich tap
+  const [routineCollection, setRoutineCollection] = useState([]);//lay toan bo buoi tap cua lich tap
 
   const [createRoutine, setCreateRoutine] = useState(false);
   const [routineName, setRoutineName] = useState("");
@@ -55,11 +55,13 @@ const ExercisesRoutine = () => {
     .then(res => {
       alert("Delete successfully!");
       console.log(res);
+      setRefresh(!refresh);
     })
     .catch(err => {
       console.log(err);
+      setRefresh(!refresh);
     })
-    setRefresh(!refresh);
+    
   }
 
   const handleCreateNewRoutine = () => {
@@ -81,21 +83,83 @@ const ExercisesRoutine = () => {
     })
     }
 
+    //gui 1 lenh put thay doi trang thai cua thuoc tinh trang thai buoi tap, sau do goi lai ham view de update
+  const HandleCheckBoxChange = (item) => {
+    //edit routine collection, use routineCollectionID
+    console.log(item);
+    axios.put(`https://localhost:7090/api/TblChiTietLichTaps`, {
+      idChiTietLichTap: item.idChiTietLichTap,
+      idLichTap: item.idLichTap,
+      idDstap: item.idDstap,
+      buoiTap: item.buoiTap,
+      trangThaiBuoiTap: item.trangThaiBuoiTap === 1 ? 0 : 1,
+    })
+    .then(res => {
+      console.log(res);
+      HandleViewClick(null, item.idLichTap);
+      setRefresh(!refresh);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+
+  const HandleStartClick = (e, item) => {
+    //start routine, use routineID
+    console.log(item);
+    axios.put(`https://localhost:7090/api/TblLichTaps`, {
+      idLichTap: item.idLichTap,
+      idTaiKhoan: item.idTaiKhoan,
+      tenLichTap: item.tenLichTap,
+      moTaLichTap: item.moTaLichTap,
+      ngayTap: new Date().toISOString(),
+      trangThai: "start",
+    })
+    .then(res => {
+      console.log(res);
+      setRefresh(!refresh);
+    }
+    )
+  }
+
+  const HandleFinishClick = (e, item) => {
+    //finish routine, use routineID
+    console.log(item);
+    axios.put(`https://localhost:7090/api/TblLichTaps`, {
+      idLichTap: item.idLichTap,
+      idTaiKhoan: item.idTaiKhoan,
+      tenLichTap: item.tenLichTap,
+      moTaLichTap: item.moTaLichTap,
+      ngayTap: new Date().toISOString(),
+      trangThai: "finish",
+    })
+    .then(res => {
+      console.log(res);
+      setRefresh(!refresh);
+    }
+    )
+  }
+
   const renderRoutine = () => {
     const arr = [];
-    for(let i = 1; i < 8; i++) {
+    for(let i = 0; i < 7; i++) {
       arr.push(
         <Grid container spacing={2} sx={{margin: 'auto'}} >
           <Grid item xs={2} sx={{border: 2, borderColor: 'blue', borderRadius: 1, p: 2, m: 2}} height="fit-content">
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}> Day {i} </Typography>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}> Day {i+1} </Typography>
           </Grid>
           <Grid item xs={8} sx={{border: 2, borderColor: 'blue', borderRadius: 1, p: 2, m: 2}}>
             <Stack spacing={2}>
-              {routineCollection.filter(item => item.buoiTap === i).map((item) => (
-              <>
-                <Typography variant="body1" component="div"> {item.tenDstap} </Typography>
-                <Typography variant="body1" component="div"> {item.moTaDstap} </Typography>
-              </>
+              {routineCollection.filter(item => item.buoiTap === i+1).map((item) => (
+              <Stack direction="row">
+                <Box sx={{border: 1, borderColor: 'green', p: 1, cursor: 'pointer'}} onClick={() => {navigate("/exercisescollections")}}>
+                  <Typography variant="body1" component="div"> {item.tenDstap} </Typography>
+                  <Typography variant="body1" component="div"> {item.moTaDstap} </Typography>
+                </Box>
+                <Box sx={{ml: 3}}>
+                  <Checkbox checked={item.trangThaiBuoiTap === 1} onChange={(e) => {HandleCheckBoxChange(item)}}/>
+                </Box>
+              </Stack>
               ))}
             </Stack>
           </Grid>
@@ -106,10 +170,10 @@ const ExercisesRoutine = () => {
 
 
   return (
-    <Stack spacing={2} sx={{ width: '100%' }}>
-      <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>Exercises Routine</Typography>
-      <Stack width='fit-content' sx={{border: 1, borderColor: 'grey.500', borderRadius: 1, p: 2, mb: 2, ml: 2}}>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>Create new routine</Typography>
+    <Stack spacing={2} alignItems="center" justifyContent="center" sx={{ width: '100%'}}>
+      <Typography variant="h3" sx={{ flexGrow: 1, margin: 'auto', mt: '20px' }}>Exercises Routine</Typography>
+      <Stack width='fit-content' alignItems="center" justifyContent="center" sx={{border: 1, borderColor: 'grey.500', borderRadius: 1, p: 2}}>
+        <Typography variant="h4" sx={{mb: 5}}>Create new routine</Typography>
         <Button variant="contained" onClick={() => setCreateRoutine(true)}>Create</Button>
       </Stack>
       <Stack width="500px" align="center" display={createRoutine? "block" : "none" } sx={{border: 1, borderColor: 'grey.500', borderRadius: 1, p: 2, mb: 2, ml: 2}}>
@@ -123,22 +187,35 @@ const ExercisesRoutine = () => {
           </Box>
       </Stack> 
       <Grid container spacing={2} sx={{margin: 'auto', justifyContent: 'center'}} >
-        <Grid item xs={5} sx={{border: 2, borderColor: 'blue', borderRadius: 1, p: 2, m: 2}}>
+        <Grid item xs={10} lg={5} sx={{border: 2, borderColor: 'blue', borderRadius: 1, p: 2, m: 2}}>
           {routine.map((item) => (
             <Box key={item.idLichTap} sx={{border: 2, borderColor: 'blue', borderRadius: 1, p: 2, m: 2}}>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                {item.tenLichTap}
+                {item.tenLichTap} 
               </Typography>
+                {
+                  item.trangThai === "start" 
+                  && <Typography variant="body1" component="div" color="red" sx={{ flexGrow: 1 }}>Started at {item.ngayTap}</Typography> 
+                }
+                {
+                  item.trangThai === "finish"
+                  && <Typography variant="body1" component="div" color="green" sx={{ flexGrow: 1 }}>Finished at {item.ngayTap}</Typography>
+                }
               <Typography variant="body1" component="div" sx={{ flexGrow: 1 }}>
                 {item.moTaLichTap}
               </Typography>
               <Button variant="contained" sx={{ m: 1 }} onClick={(e) => HandleViewClick(e, item.idLichTap)}>View</Button>
               <Button variant="contained" sx={{ m: 1 }} onClick={(e) => HandleEditClick(e, item.idLichTap)}>Edit</Button>
               <Button variant="contained" sx={{ m: 1 }} onClick={(e) => HandleDeleteClick(e, item.idLichTap)}>Delete</Button>
+              {
+                item.trangThai === "start" 
+                ? <Button variant="contained" sx={{ m: 1 }} color="secondary" onClick={(e) => HandleFinishClick(e, item)}>Finish</Button> 
+                : <Button variant="contained" color="secondary" sx={{ m: 1 }} onClick={(e) => HandleStartClick(e, item)}>Start</Button>
+              }
             </Box>
           ))}
         </Grid>
-        <Grid item xs={5} sx={{border: 2, borderColor: 'blue', borderRadius: 1, p: 2, m: 2}}>
+        <Grid item xs={10} lg={5} sx={{border: 2, borderColor: 'blue', borderRadius: 1, p: 2, m: 2}}>
           <Stack spacing={2}>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}> Routine and Collection </Typography>
             {renderRoutine()}

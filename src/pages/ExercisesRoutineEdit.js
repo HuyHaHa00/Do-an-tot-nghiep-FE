@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Box, Typography, Stack, Grid, Button, TextField, Select, MenuItem } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const ExercisesRoutineEdit = () => {
     const [routine, setRoutine] = useState([]);
@@ -13,19 +14,22 @@ const ExercisesRoutineEdit = () => {
     const { id } = useParams();
 
     const arr = [
-        { index: 0, value: ""}, 
-        { index: 1, value: ""}, 
-        { index: 2, value: ""},
-        { index: 3, value: ""},
-        { index: 4, value: ""},
-        { index: 5, value: ""},
-        { index: 6, value: ""}];
+        { index: 0, value: "" },
+        { index: 1, value: "" },
+        { index: 2, value: "" },
+        { index: 3, value: "" },
+        { index: 4, value: "" },
+        { index: 5, value: "" },
+        { index: 6, value: "" }];
     const [selectedCollection, setSelectedCollection] = useState(arr);
 
     const win = window.sessionStorage;
     const userID = win.getItem("userID");
 
+    const navigate = useNavigate();
+
     useEffect(() => {
+        checkBelong(id);
         axios.get(`https://localhost:7090/api/TblLichTaps/${id}`)//thong tin lich tap
             .then(res => {
                 setRoutine(res.data);
@@ -49,8 +53,27 @@ const ExercisesRoutineEdit = () => {
             })
             .catch(err => {
                 console.log(err);
-            })
+            })  
     }, [refresh]);
+
+    const checkBelong = (routineID) => {
+        axios.get(`https://localhost:7090/api/TblLichTaps/taikhoan/${userID}`)
+            .then(res => {
+                var arr = res.data;
+                var count = 0;
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i].idLichTap == routineID) {
+                        count++;
+                    }
+                }
+                if (count == 0) {
+                    navigate('/');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
 
     const HandleSave = () => {
         //axios post to add new collection to routine
@@ -63,12 +86,14 @@ const ExercisesRoutineEdit = () => {
             }
             listctlt.push(ctlt);
         });
-        
+
         axios.post(`https://localhost:7090/api/TblChiTietLichTaps/AddWithList`, listctlt)
             .then(res => {
                 console.log(res);
                 setRefresh(!refresh);
                 alert("Save successfully!");
+                //redirect to /exerciseroutine page
+                window.location.href = "/exerciseroutine";
             }
             )
             .catch(err => {
@@ -76,14 +101,14 @@ const ExercisesRoutineEdit = () => {
                 console.log(err);
             }
             )
-            console.log(listctlt);
+        console.log(listctlt);
     }
 
 
     const renderRoutine = () => {
         const arr = [];
 
-        const HandleChange = (e,i) => {
+        const HandleChange = (e, i) => {
             //search if the index is already in the array
             const index = selectedCollection.findIndex((item) => item.index === i);
             //if it is, update the value
@@ -111,7 +136,7 @@ const ExercisesRoutineEdit = () => {
                             id="demo-simple-select"
                             label="Collection"
                             value={selectedCollection[i].value}
-                            onChange={(e) => HandleChange(e,i)}
+                            onChange={(e) => HandleChange(e, i)}
                         >
                             {collections.map((item) => (
                                 <MenuItem value={item.idDstap}>{item.tenDstap}</MenuItem>
@@ -124,17 +149,17 @@ const ExercisesRoutineEdit = () => {
     }
 
     return (
-        <Box>
-            <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}> Edit Routine </Typography>
-            <Stack spacing={2}>
-                <Typography label="Routine Name" variant="outlined" value={routine.tenLichtap} />
-                <Typography label="Routine Description" variant="outlined" value={routine.motaLichtap} />
+        <Stack spacing={2} alignItems="center" justifyContent="center" sx={{ width: '100%' }}>
+            <Typography variant="h3" sx={{ flexGrow: 1, margin: 'auto', mt: '20px' }}> Edit Routine </Typography>
+            <Stack width="fit-content" spacing={2} margin="auto">
+                <Typography variant="h6">Routine Name: {routine.tenLichTap}</Typography>
+                <Typography variant="h6">Routine Description: {routine.moTaLichTap}</Typography>
             </Stack>
-            <Stack spacing={2}>
+            <Stack spacing={2} width="100%">
                 {renderRoutine()}
             </Stack>
             <Button variant="contained" onClick={HandleSave}>Save</Button>
-        </Box>
+        </Stack>
     );
 }
 

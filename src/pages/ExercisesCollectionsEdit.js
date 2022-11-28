@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Grid, Box, Stack, Typography, Button, TextField } from '@mui/material';
 import {Pagination} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import ExerciseCard2 from '../components/ExerciseCard2'
 
@@ -14,6 +15,10 @@ const ExercisesCollectionsEdit = () => {
   const [exercises, setExercises] = useState([]);//bai tap trong danh sach tap dang chon
 
   const [refresh, setRefresh] = useState(false);//de reload
+
+  const navigate = useNavigate();
+  const win = window.sessionStorage;
+  const userID = win.getItem("userID");
 
   //doan nay de phan trang
   const [currentPage, setCurrentPage] = useState(1);
@@ -61,15 +66,38 @@ const ExercisesCollectionsEdit = () => {
       const CollectionData = await axios.get(`https://localhost:7090/api/TblDstaps/dstap/${id}`);
       setCollection(CollectionData.data[0]);
     };
+    checkBelong(id);
     fetchExercisesData();
+    //check if the collection being edited is in the user's collection
+    //if not, redirect to the home page
   }, [refresh]);
+
+
+  const checkBelong = (CollectionID) => {
+    axios.get(`https://localhost:7090/api/TblDstaps/taikhoan/${userID}`)
+        .then(res => {
+            var arr = res.data;
+            var count = 0;
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].idDstap == CollectionID) {
+                    count++;
+                }
+            }
+            if (count == 0) {
+                navigate('/');
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
   
-  const handleAdd = (idBaiTap) => {
+  const handleAdd = (idBaiTap, rep) => {
     //axios post with body
     axios.post(`https://localhost:7090/api/TblChiTietDstaps`, {
             idDstap: parseInt(id),
             idBaiTap: parseInt(idBaiTap),
-            soLanTap: 15,
+            soLanTap: rep || 15,
             thoiGianTap: null,
         })
         .then(res => {
@@ -102,7 +130,7 @@ const ExercisesCollectionsEdit = () => {
             <Typography variant="h4" sx={{fontWeight: 'bold'}} textAlign="center">
               {collection.tenDstap}
             </Typography>
-            <Typography variant="h6" sx={{fontWeight: 'bold'}}>
+            <Typography variant="h6" sx={{fontWeight: 'bold'}} textAlign="center">
               {collection.moTaDstap}
             </Typography>
             <Stack>

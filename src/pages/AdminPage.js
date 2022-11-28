@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react'
 import {Box, Stack, Typography, Button, TextField, Grid} from '@mui/material'
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination} from '@mui/material';
 import axios from 'axios'
+import {useNavigate} from 'react-router-dom'
 
 const AdminPage = () => {
 
@@ -11,6 +12,14 @@ const AdminPage = () => {
     const [refresh, setRefresh] = useState(false);
     const [createOrEditData, setCreateOrEditData] = useState([]);
     const [createOrEdit, setCreateOrEdit] = useState("");
+
+    const navigate = useNavigate();
+
+    const win = window.sessionStorage;
+    const quyen = win.getItem("quyen");
+    if(quyen !== "admin") {
+        navigate("/");
+    }
 
     //a function to get data from database, have 1 parameter: url
     const getData = (url) => {
@@ -35,7 +44,7 @@ const AdminPage = () => {
     };
     const renderTable = (tableName, tableRowsName, RowsName, data) => {
         return (
-            <Box sx={{width: '80%', overflow: 'auto', margin: 'auto'}}>
+            <Box sx={{width: '80%', height: '100%', margin: 'auto'}}>
                 <Typography variant="h5" component="div" sx={{textAlign: 'center', mt: 2, mb: 2}}> {tableName} </Typography>
                 <Button variant="contained" sx={{mb: 2}} onClick={() => {setCreateOrEdit("Create"); setCreateOrEditData([])}}>Create</Button>
                 <Button variant="contained" sx={{mb: 2, ml: 2}} onClick={() => {setCreateOrEdit("Edit"); setCreateOrEditData([])}}>Edit</Button>
@@ -54,7 +63,7 @@ const AdminPage = () => {
                         <TableBody>
                             {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                                 return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                                    <TableRow hover tabIndex={-1} key={row.id}>
                                         {RowsName.map((rowName) => {
                                             const value = row[rowName];
                                             return (
@@ -141,29 +150,8 @@ const AdminPage = () => {
     }
 
     useEffect(() => {
-        if(selected === "TblBaiTaps"){
-            getData("https://localhost:7090/api/TblBaiTaps");
-        }
-        else if(selected === "TblDstaps"){
-            getData("https://localhost:7090/api/TblDstaps");
-        }
-        else if(selected === "TblChiTietDstaps"){
-            getData("https://localhost:7090/api/TblChiTietDstaps");
-        }
-        else if(selected === "TblLichTaps"){
-            getData("https://localhost:7090/api/TblLichTaps");
-        }
-        else if(selected === "TblChiTietLichTaps"){
-            getData("https://localhost:7090/api/TblChiTietLichTaps");
-        }
-        else if(selected === "TblTaiKhoans"){
-            getData("https://localhost:7090/api/TblTaiKhoans");
-        }
-        else if(selected === "TblThongTinTks"){
-            getData("https://localhost:7090/api/TblThongTinTks");
-        }
-        else if(selected === "TblDonGds"){
-            getData("https://localhost:7090/api/TblDonGds");
+        if(selected !== ""){
+            getData("https://localhost:7090/api/" + selected);
         }
         setPage(0);
         setCreateOrEditData([]);

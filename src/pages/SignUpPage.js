@@ -68,9 +68,13 @@ const SignUpPage = () => {
               formIsValid = false;
               setError('Username is too short or contains spaces');
           }
-          else if (!password || password.length < 8 || password.match(/[^a-zA-Z0-9]/)) {
+          else if (!password || password.length < 8 || password.match(/^(?!.* )$/)) {
               formIsValid = false;
               setError('Password is too short or contains spaces');
+          }
+          else if (!name) {
+              formIsValid = false;
+              setError('Name is required');
           }
           else if (!age || age < 18 || age > 100) {
               formIsValid = false;
@@ -87,7 +91,7 @@ const SignUpPage = () => {
           else {
               setError('');
           }
-      }, [username, password, age, email, phone]);
+      }, [username, password, name, age, email, phone]);
   
   return (
     <Stack width="400px" m="auto" mt="100px">
@@ -96,7 +100,7 @@ const SignUpPage = () => {
         <TextField label="Username" variant="outlined" fullWidth value={username} onChange={(e)=>setUsername(e.target.value)} autoFocus/>
       </Box>
       <Box sx={{mt: '20px'}}>
-        <TextField label="Password" variant="outlined" fullWidth value={password} onChange={(e)=>setPassword(e.target.value)}/>
+        <TextField label="Password" variant="outlined" type="password" fullWidth value={password} onChange={(e)=>setPassword(e.target.value)}/>
       </Box>
       <Box sx={{mt: '20px'}}>
         <TextField label="Name" variant="outlined" fullWidth value={name} onChange={(e)=>setName(e.target.value)}/>

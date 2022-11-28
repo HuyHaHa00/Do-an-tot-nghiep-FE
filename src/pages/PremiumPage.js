@@ -14,9 +14,11 @@ const PremiumPage = () => {
   const [method, setMethod] = useState("");
   const [isPremium, setIsPremium] = useState(false);
 
-  if(trangThaiPremium === "1"){
-    setIsPremium(true);
-  }
+  useEffect(() => {
+    if(trangThaiPremium === "yes"){
+      setIsPremium(true);
+    }
+  }, []);
   
   const HandleBuyPremium = () => {
     if (transactionCode === "") {
@@ -31,8 +33,8 @@ const PremiumPage = () => {
       })
         .then((response) => {
           alert("Your request has been sent. Please wait for admin to approve your request!");
-          window.location.href = "/premium";
-        }, (error) => {
+        })
+        .catch((error) => {
           alert(error);
           console.log(error);
         });
@@ -65,11 +67,28 @@ const PremiumPage = () => {
     
     const renderAlreadyPremium = () => {
         return(
+          <>
           <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
             <Typography variant="h4" sx={{marginBottom: '1rem'}}>You are a premium user</Typography>
             <Typography variant="h6" sx={{marginBottom: '1rem'}}>You can enjoy all features</Typography>
             <Typography variant="h6" sx={{marginBottom: '1rem'}}>Thank you for using our service</Typography>
           </Box>
+          <Box>
+              <Typography variant="h3" sx={{marginBottom: '1rem', marginLeft: '1rem'}}>Premium Exercise Collections</Typography>
+              <Stack direction="column" spacing={2} sx={{marginBottom: '1rem', marginLeft: '2rem'}}>
+                <Typography variant="h4" sx={{marginBottom: '1rem', color: 'blue'}}>1. Arm focus collection</Typography>
+                <Typography variant="h5" sx={{marginBottom: '1rem'}}>Exercise 1</Typography>
+                <Typography variant="h5" sx={{marginBottom: '1rem'}}>Exercise 2</Typography>
+                <Typography variant="h5" sx={{marginBottom: '1rem'}}>Exercise 3</Typography>
+              </Stack>
+              <Stack direction="column" spacing={2} sx={{marginBottom: '1rem', marginLeft: '2rem'}}>
+                <Typography variant="h4" sx={{marginBottom: '1rem', color: 'blue'}}>2. Leg focus collection</Typography>
+                <Typography variant="h5" sx={{marginBottom: '1rem'}}>Exercise 1</Typography>
+                <Typography variant="h5" sx={{marginBottom: '1rem'}}>Exercise 2</Typography>
+                <Typography variant="h5" sx={{marginBottom: '1rem'}}>Exercise 3</Typography>
+              </Stack>
+          </Box>
+          </>
         )
       }
 

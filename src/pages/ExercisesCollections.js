@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const ExercisesCollections = () => {
     const [exercisesAndData, setExercisesAndData] = useState([]);
     const [collections, setCollections] = useState([]);
-    const [selectedCollection, setSelectedCollection] = useState([]);
+    const [selectedCollection, setSelectedCollection] = useState("");
     const [createCollection, setCreateCollection] = useState(false);
 
     const [refresh, setRefresh] = useState(false);
@@ -91,11 +91,11 @@ const ExercisesCollections = () => {
   return (
     <Box>
         <Typography variant="h2" align="center" sx={{mt: 10, mb: 5}}>Exercises Collections</Typography>
-            <Stack width="400px" sx={{border: 1, borderColor: 'grey.500', borderRadius: 1, p: 2, mb: 2, ml: 2}}>
+            <Stack width="400px" sx={{border: 1, borderColor: 'grey.500', borderRadius: 1, p: 2, m: 'auto'}}>
                 <Typography variant="h4" sx={{mb: 5}}>Create new Collection?</Typography>
                 <Button variant="contained" sx={{mb: 5}} onClick={handleCreate}>Create</Button>
             </Stack>
-            <Stack width="500px" align="center" display={createCollection ? "block" : "none" } sx={{border: 1, borderColor: 'grey.500', borderRadius: 1, p: 2, mb: 2, ml: 2}}>
+            <Stack width="500px" align="center" display={createCollection ? "block" : "none" } sx={{border: 1, borderColor: 'grey.500', borderRadius: 1, p: 2, m: 'auto', mt: '20px'}}>
                 <Typography variant="h5" align="left" sx={{mt: 2}}>Collection Name:</Typography>
                     <TextField fullWidth type="text" onChange={(e)=>setCollectionName(e.target.value)}/>
                 <Typography variant="h5" align="left" sx={{mt: 2}}>Collection Description:</Typography>
@@ -108,7 +108,7 @@ const ExercisesCollections = () => {
 
         <Grid container spacing={2} sx={{mt: 10, ml: 10}}>
 
-            <Grid item xs={5} sx={{ml: 5}}>
+            <Grid item xs={10} lg={5}>
                 <Typography variant="h4" align="center" sx={{mb: 5}}>Collections</Typography>
                 {collections.map((collection) => (
                     <Box key={collection.idDstap} sx={{border: 1, borderColor: 'grey.500', borderRadius: 1, p: 2, mb: 2}}>
@@ -122,9 +122,9 @@ const ExercisesCollections = () => {
             </Grid>
 
             
-            <Grid item xs={5} >
+            <Grid item xs={10} lg={5} >
                 <Typography variant="h4" align="center" sx={{mb: 5}}>Exercises</Typography>
-                <Typography variant="body1" sx={{mb: 2}}>Selected Collection: </Typography>
+                <Typography variant="h5" sx={{mb: 2}}>Selected Collection: </Typography>
                 {(selectedCollection !== "") ? (
                     exercisesAndData.map((exercise) => (
                     <Box key={exercise.idBaiTap} sx={{border: 1, borderColor: 'grey.500', borderRadius: 1, p: 2, mb: 2, minWidth: 500}}>
@@ -141,7 +141,10 @@ const ExercisesCollections = () => {
                                 </Grid>
                             </Grid>
                     </Box>
-                ))) : (<></>)}
+                ))) : 
+                (<> 
+                    <Typography variant="h6" sx={{mb: 2}}>No collection selected or this collection don't have any exercise</Typography>
+                </>)}
                     
             </Grid>
         </Grid>

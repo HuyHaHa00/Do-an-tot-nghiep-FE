@@ -51,7 +51,7 @@ const LoginPage = () => {
         <TextField label="Username" variant="outlined" fullWidth value={username} onChange={(e)=>setUsername(e.target.value)}/>
       </Box>
       <Box sx={{mt: '20px'}}>
-        <TextField label="Password" variant="outlined" fullWidth value={password} onChange={(e)=>setPassword(e.target.value)}/>
+        <TextField label="Password" variant="outlined" type="password" fullWidth value={password} onChange={(e)=>setPassword(e.target.value)}/>
       </Box>
       <Box sx={{mt: '20px'}}>
               <Button variant="contained" fullWidth onClick={login}>Login</Button>
