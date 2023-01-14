@@ -182,13 +182,13 @@ const AdminPage = () => {
     };
 
     const renderChitietLichTap = () => {
-        const tableRowsName = ["ID chi tiết", "ID lịch tập", "ID danh sách tập", "Buổi tập"];
-        const RowsName = ["idChiTietLichTap", "idLichTap", "idDstap", "buoiTap"];
+        const tableRowsName = ["ID chi tiết", "ID lịch tập", "ID danh sách tập", "Buổi tập", "Trạng thái"];
+        const RowsName = ["idChiTietLichTap", "idLichTap", "idDstap", "buoiTap", "trangThaiBuoiTap"];
         return renderTable("Chi tiết lịch tập", tableRowsName, RowsName, data);
     };
 
     const renderTaiKhoan = () => {
-        const tableRowsName = ["ID", "Email", "Mật khẩu", "Quyền", "Trạng thái Premium", "Ngày đăng ký"];
+        const tableRowsName = ["ID", "Tên đăng nhập", "Mật khẩu", "Quyền", "Trạng thái Premium", "Ngày đăng ký"];
         const RowsName = ["idTaiKhoan", "tenDangNhap", "matKhau", "quyen", "trangThaiPremium", "thoiGianDk"];
         return renderTable("Tài khoản", tableRowsName, RowsName, data);
     };

@@ -42,7 +42,12 @@ const Navbar = () => {
             <Link to="/login" style={{ textDecoration: 'none', color: "#3A1212" }}>Login</Link>
             <Link to="/signup" style={{ textDecoration: 'none', color: "#3A1212" }}>Signup</Link>
           </>}
-
+          {userID && win.getItem("quyen") === "admin" 
+          ? <>
+              <Link to="/admin" style={{ textDecoration: 'none', color: "#3A1212" }}>Database Check</Link>
+              <Link to="admin/approve" style={{ textDecoration: 'none', color: "#3A1212" }}>Approve Invoices</Link>
+            </>
+          : null}
       </Stack>
     </Stack>
   )
