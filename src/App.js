@@ -16,6 +16,7 @@ import ExercisesRoutineEdit from './pages/ExercisesRoutineEdit';
 import Account from './pages/Account';
 import PremiumPage from './pages/PremiumPage';
 import AdminPage from './pages/AdminPage';
+import ApproveInvoices from './pages/ApproveInvoices';
 
 const App = () => (
   <Box>
@@ -32,6 +33,7 @@ const App = () => (
       <Route path="/exerciseroutine/edit/:id" element={<ExercisesRoutineEdit />} />
       <Route path="/premium" element={<PremiumPage />} />
       <Route path="/admin" element={<AdminPage />} />
+      <Route path="/admin/approve" element={<ApproveInvoices />} />
     </Routes>
     <Footer />
   </Box>

@@ -32,7 +32,7 @@ const SignUpPage = () => {
           tenDangNhap: username.toLowerCase(),
           matKhau: password,
           quyen: "user",
-          trangThaiPremium: "false",
+          trangThaiPremium: "no",
           thoiGianDk: date,
           hoTen: name,
           gioiTinh: gender,

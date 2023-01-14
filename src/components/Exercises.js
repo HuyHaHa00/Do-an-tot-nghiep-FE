@@ -55,7 +55,7 @@ const Exercises = ({ exercises, setExercises, bodyPart }) => {
   return (
     <Box id="exercises" sx={{ mt: { lg: '109px' } }} mt="50px" p="20px" minWidth="100%">
         <Typography variant="h3" mb="46px">
-          Showing Results for {bodyPart}
+          Hiển thị các bài tập cho {bodyPart}
         </Typography>
         <Stack direction="row" sx={{ gap: { lg: '107px', xs: '50px' } }} flexWrap="wrap" justifyContent="center">
           {currentExercises.map((exercise, index) => (

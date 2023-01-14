@@ -16,10 +16,10 @@ const ExerciseCard2 = ({ key, exercise, handle, button, }) => {
                     <Typography variant="h5" sx={{ mb: 2 }} align="center" >{exercise.tenBaiTap}</Typography>
                     {//button ma la remove thi hien thi so lan tap, neu la add thi hien thi input
                         button === "remove" ?
-                            <Typography variant="h6" color="red" sx={{ mb: 2 }} align="center" >{exercise.soLanTap} reps</Typography> :
+                            <Typography variant="h5" color="green" sx={{ mb: 2 }}>{exercise.soLanTap} reps</Typography> :
                             <TextField label="Reps" variant="outlined" type="number" value={rep} onChange={(e) => setRep(e.target.value)} />}
                     <Grid container spacing={2}>
-                        <Grid item width="50%">
+                        <Grid item width="50%" mt={2}>
                             <Typography sx={{ mb: 3 }}>Equipment: {exercise.tbsuDung}</Typography>
                             <Typography sx={{ mb: 3 }}>Target Muscles: {exercise.nhomCo}</Typography>
                             <Typography sx={{ mb: 3 }}>Body Part: {exercise.bpCoThe}</Typography>

@@ -124,7 +124,7 @@ const ExercisesCollectionsEdit = () => {
   return (
     <Box>
       <Typography variant="h4" sx={{textAlign: 'center', mt: 5, mb: 3}}>You are editing {collection.tenDstap}</Typography>
-      <Grid container spacing={2} sx={{margin: 'auto', justifyContent: 'center'}} >
+      <Grid container spacing={2} sx={{margin: 'auto', justifyContent: 'center', backgroundColor: '#F5F5F5'}} >
         <Grid item xs={5} sx={{border: 2, borderColor: 'blue', borderRadius: 1, p: 2, m: 2}}>
           <Stack spacing={2}>
             <Typography variant="h4" sx={{fontWeight: 'bold'}} textAlign="center">
